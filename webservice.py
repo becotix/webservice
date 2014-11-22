@@ -4,7 +4,8 @@ from db import *
 
 @route("/")
 def index():
-	return { "name": "Becotix Webservice 1.0"}
+	return { "name": "Becotix Webservice 1.0",
+			 "supported_methods":"register,stop_info,tickets,journeydata,travelhistory,personaldetails"}
 
 @post("/register")
 def register():
@@ -22,29 +23,39 @@ def register():
 
 @get("/stop_info")
 def stop_info():
-	stop = {"stop":{"name":"bus_stop1","major":"9000", "minor":"9000"}}
-	beacon = {"bus_beacon":{"minor":"9000","major":"9000"}}
+	cursor.execute("SELECT * from stop")
+	stops = list(cursor.fetchall())
+	cursor.execute("SELECT * from beacon")
+	beacons = list(cursor.fetchall())
 	return {"name":"stop_info", 
-			"stops":[stop,stop,stop,stop], "bus_beacons":[beacon,beacon,beacon,beacon]}
+			"stops":stops, "bus_beacons":beacons}
 
 @get("/tickets")
 def tickets():
-	ticket = {"word":"cat", "date":datetime.datetime, "color":"#000"}
+	cursor.execute("SELECT * from tickets")
+	tickets = list(cursor.fetchall())
 	return {"name":"tickets",
-		"tickets":[ticket,ticket,ticket,ticket]}
+		"tickets":tickets}
 
 @get("/journeydata")
 def journeydata():
-	return {"name":"journeydata"}
+	cursor.execute("SELECT * from journey")
+	journeys = list(cursor.fetchall())
+	return {"name":"journeys", 
+				"journeys":journeys}
 
 @get("/travelhistory")
 def travelhistory():
-	return {"name":"travelhistory"}
+	cursor.execute("SELECT * from journey")
+	travelhistory = list(cursor.fetchall())
+	return {"name":"travelhistory",
+			"travelhistory":travelhistory}
 
 @get("/personaldetails")
 def personaldetails():
-	return {"name":"personaldetails"}
+	cursor.execute("SELECT * from user")
+	userdata = list(cursor.fetchall())
+	return {"name":"personaldetails",
+			"personaldetails":userdata}
 
 run(host='0.0.0.0', port=80)
-
-
