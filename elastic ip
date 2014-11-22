@@ -5,3 +5,6 @@ ssh -l ubuntu -i ./webserver-key.pem 54.148.229.41
 
 -> web service 
 ssh -l ubuntu -i ./webserver-key.pem 54.148.192.172
+
+-> db server
+ssh -l ubuntu -i ./webserver-key.pem 54.148.36.172
